@@ -168,8 +168,10 @@ $client = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
 HTTP = GraphQL::Client::HTTP.new('https://api.github.com/graphql') do
   def headers(_context)
     # Optionally set any HTTP headers
-    { "User-Agent": 'shiftkey-testing-graphql-things' }
-    { "Authorization": "bearer #{ENV['GITHUB_TOKEN']}" }
+    {
+      "User-Agent": 'shiftkey-testing-graphql-things',
+      "Authorization": "bearer #{ENV['GITHUB_TOKEN']}"
+    }
   end
 end
 
