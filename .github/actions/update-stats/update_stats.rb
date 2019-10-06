@@ -23,19 +23,15 @@ def try_read_owner_repo(url)
 
   path_segments = url.path.split('/')
 
-  if path_segments.length < 3
-    # this likely means the URL points to a filtered search URL
-    return nil
-  else
-    values = path_segments.drop(1).take(2)
+  # this likely means the URL points to a filtered search URL
+  return nil if path_segments.length < 3
 
-    if values[0].casecmp('orgs').zero?
-      # points to a project board for the organization
-      return nil
-    end
+  values = path_segments.drop(1).take(2)
 
-    return values.join('/')
-  end
+  # points to a project board for the organization
+  return nil if values[0].casecmp('orgs').zero?
+
+  values.join('/')
 end
 
 def find_github_url(url)
@@ -43,11 +39,9 @@ def find_github_url(url)
 
   uri = URI.parse(url)
 
-  if uri.host.casecmp('github.com') != 0
-    return nil
-  else
-    return try_read_owner_repo(uri)
-  end
+  return nil if uri.host.casecmp('github.com') != 0
+
+  try_read_owner_repo(uri)
 end
 
 def find_owner_repo_pair(yaml)
